@@ -2,30 +2,6 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 
 const API_BASE_URL = 'https://dummyjson.com/users';
 
-const buildQueryString = ({ limit, skip, sortField, sortOrder }) => {
-  const params = new URLSearchParams();
-  
-  params.append('limit', limit);
-  params.append('skip', skip);
-  
-  if (sortField && sortOrder) {
-    // Маппинг полей для сортировки
-    const sortMapping = {
-      'lastName': 'lastName',
-      'firstName': 'firstName',
-      'age': 'age',
-      'gender': 'gender',
-      'phone': 'phone'
-    };
-    
-    const apiSortField = sortMapping[sortField] || sortField;
-    params.append('sortBy', apiSortField);
-    params.append('order', sortOrder);
-  }
-  
-  return params.toString();
-};
-
 // Функция для фильтрации пользователей на клиенте
 const filterUsers = (users, filters) => {
   return users.filter(user => {

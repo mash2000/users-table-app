@@ -63,7 +63,7 @@ function App() {
 
   const handleFilterChange = useCallback((field, value) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
-    setCurrentPage(1);
+    setCurrentPage(1); // Сбрасываем на первую страницу при изменении фильтров
   }, []);
 
   const totalPages = Math.ceil(total / limit);
@@ -86,6 +86,10 @@ function App() {
           <div className={styles.loading}>Загрузка...</div>
         ) : (
           <>
+            <div className={styles.stats}>
+              Найдено пользователей: {total}
+            </div>
+            
             <Table
               users={users}
               onSort={handleSort}
@@ -93,11 +97,13 @@ function App() {
               onRowClick={handleRowClick}
             />
             
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </>
         )}
       </div>

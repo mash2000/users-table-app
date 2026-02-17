@@ -1,22 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Filters.module.css';
 
 const Filters = ({ filters, onFilterChange }) => {
+  const [localFilters, setLocalFilters] = useState(filters);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    onFilterChange(name, value);
+    setLocalFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Применяем все фильтры одновременно
+    Object.entries(localFilters).forEach(([key, value]) => {
+      onFilterChange(key, value);
+    });
+  };
+
+  const handleReset = () => {
+    const resetFilters = {
+      firstName: '',
+      lastName: '',
+      age: '',
+      gender: '',
+      phone: '',
+    };
+    setLocalFilters(resetFilters);
+    Object.entries(resetFilters).forEach(([key, value]) => {
+      onFilterChange(key, value);
+    });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
   };
 
   return (
-    <div className={styles.filters}>
+    <form onSubmit={handleSubmit} className={styles.filters}>
       <div className={styles.filterGroup}>
         <label htmlFor="firstName">Имя</label>
         <input
           type="text"
           id="firstName"
           name="firstName"
-          value={filters.firstName}
+          value={localFilters.firstName}
           onChange={handleChange}
+          onKeyPress={handleKeyPress}
           placeholder="Поиск по имени"
         />
       </div>
@@ -27,8 +58,9 @@ const Filters = ({ filters, onFilterChange }) => {
           type="text"
           id="lastName"
           name="lastName"
-          value={filters.lastName}
+          value={localFilters.lastName}
           onChange={handleChange}
+          onKeyPress={handleKeyPress}
           placeholder="Поиск по фамилии"
         />
       </div>
@@ -39,9 +71,10 @@ const Filters = ({ filters, onFilterChange }) => {
           type="number"
           id="age"
           name="age"
-          value={filters.age}
+          value={localFilters.age}
           onChange={handleChange}
-          placeholder="Возраст"
+          onKeyPress={handleKeyPress}
+          placeholder="Точный возраст"
           min="1"
           max="120"
         />
@@ -52,7 +85,7 @@ const Filters = ({ filters, onFilterChange }) => {
         <select
           id="gender"
           name="gender"
-          value={filters.gender}
+          value={localFilters.gender}
           onChange={handleChange}
         >
           <option value="">Все</option>
@@ -67,12 +100,22 @@ const Filters = ({ filters, onFilterChange }) => {
           type="text"
           id="phone"
           name="phone"
-          value={filters.phone}
+          value={localFilters.phone}
           onChange={handleChange}
+          onKeyPress={handleKeyPress}
           placeholder="Поиск по телефону"
         />
       </div>
-    </div>
+
+      <div className={styles.filterActions}>
+        <button type="submit" className={styles.applyButton}>
+          Применить фильтры
+        </button>
+        <button type="button" onClick={handleReset} className={styles.resetButton}>
+          Сбросить
+        </button>
+      </div>
+    </form>
   );
 };
 

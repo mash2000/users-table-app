@@ -8,11 +8,11 @@ const TableRow = ({ user, columnWidths, onClick }) => {
       <td style={{ width: columnWidths.firstName }}>{user.firstName}</td>
       <td style={{ width: columnWidths.middleName }}>{user.maidenName || '-'}</td>
       <td style={{ width: columnWidths.age }}>{user.age}</td>
-      <td style={{ width: columnWidths.gender }}>{user.gender}</td>
+      <td style={{ width: columnWidths.gender }}>{user.genderDisplay}</td>
       <td style={{ width: columnWidths.phone }}>{user.phone}</td>
       <td style={{ width: columnWidths.email }}>{user.email}</td>
-      <td style={{ width: columnWidths.country }}>{user.address?.country || '-'}</td>
-      <td style={{ width: columnWidths.city }}>{user.address?.city || '-'}</td>
+      <td style={{ width: columnWidths.country }}>{user.country || '-'}</td>
+      <td style={{ width: columnWidths.city }}>{user.city || '-'}</td>
     </tr>
   );
 };

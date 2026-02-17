@@ -27,9 +27,10 @@ const UserModal = ({ user, onClose }) => {
             )}
             <div className={styles.userDetails}>
               <div className={styles.userName}>
-                {user.lastName} {user.firstName} {user.maidenName || ''}
+                {user.lastName} {user.firstName} {user.maidenName}
               </div>
               <div className={styles.userAge}>Возраст: {user.age} лет</div>
+              <div className={styles.userGender}>Пол: {user.genderDisplay}</div>
             </div>
           </div>
 
